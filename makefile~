@@ -1,6 +1,0 @@
-CFLAGS=-Wall
-
-teste: ondas entrada
-	./ondas entrada
-
-ondas: ondas.c
