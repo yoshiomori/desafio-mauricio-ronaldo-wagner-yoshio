@@ -1,10 +1,10 @@
 #include <stdio.h> /* printf */
 #include <stdlib.h> /* exit, EXIT_FAILURE */
-#include "lib/leitura_entrada.h" /* leia_entrada */
-#include "lib/matriz.h" /* matriz_double */
-#include "lib/alloc_safe.h" /* malloc_safe */
-#include "lib/ondas_lib.h" /* nova_gota, calcula_altura, cx, cy */
-#include "lib/imagem.h" /* gera_imagem */
+#include "../lib/leitura_entrada.h" /* leia_entrada */
+#include "../lib/matriz.h" /* matriz_double */
+#include "../lib/alloc_safe.h" /* malloc_safe */
+#include "../lib/ondas_lib.h" /* nova_gota, calcula_altura, cx, cy */
+#include "../lib/imagem.h" /* gera_imagem */
 
 /* Variáveis armazenam dados do arquivo */
 extern int larg, alt, L, H, v;
@@ -37,7 +37,7 @@ main(int argc, char **argv){
   /* Faz as Niter iterações */
   for(k = 0, t = 0; k < Niter; k++){
     /* Verificando se nessa iteração será gerada uma nova gota */
-    if((double)rand() / RAND_MAX < P / 100)
+    if(!(k % 2))
       nova_gota((double)(rand() % larg), (double)(rand() % alt), t);
 
     /* Para cada ponto no lago calcula a altura da água */

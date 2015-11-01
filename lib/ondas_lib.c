@@ -6,19 +6,25 @@
  * ser geradas */
 #define NMAXGOTAS 1000
 
+/* Variáveis armazenam dados do arquivo */
+int larg, alt, L, H, v;
+double eps;
+
 /* Cada gota tem sua componete x e y */
 static double Gx[NMAXGOTAS];
 static double Gy[NMAXGOTAS];
+static double Gt[NMAXGOTAS]; /* Instante em que a gota caiu */
 
 /* Número de gotas geradas */
 static int N = 0;
 
 /* Gera uma nova gota */
 void
-nova_gota(double x, double y){
+nova_gota(double x, double y, double t){
   if (N < NMAXGOTAS){
     Gx[N] = x;
-    Gy[N++] = y;
+    Gy[N] = y;
+    Gt[N++] = t;
   }
   else{
     printf("Excedeu o número máximo de gotas\n");
@@ -34,13 +40,26 @@ dist(double px, double py, double gx, double gy){
 }
 
 /* Calcula a altura gerada por cada gota em um ponto do lago especificado */
-void
-calcula_altura(double px, double py, int v, double t, double eps, double *h){
+double
+calcula_altura(double px, double py, double t){
   int n;
-  double vt = v * t, aux, d;
+  double h = 0, aux, d;
   for(n = 0; n < N; n++){
-    d = dist(px, py, Gx[n], Gy[n]) - vt;
-    aux = d * exp(d * d - t / 10);
-    *h += aux > eps ? aux : 0;
+    d = dist(px, py, Gx[n], Gy[n]) - v * (t - Gt[n]);
+    aux = d * exp(-d * d - (t - Gt[n]) / 10);
+    h += aux > eps || aux < -eps ? aux : 0;
   }
+  return h;
+}
+
+/* Faz o calculo da coordenada do ponto (i, j) no eixo das abcissas*/
+double
+cx(int j){
+  return j * (double)larg / (L - 1);
+}
+
+/* Faz o calculo da coordenada do ponto (i, j) no eixo das ordenadas */
+double
+cy(int i){
+  return i * (double)alt / (H - 1);
 }

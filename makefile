@@ -1,6 +1,6 @@
 CFLAGS=-Wall -lm
 
-teste: ondas entrada
-	./ondas entrada
+ondas: ondas.c lib/leitura_entrada.c lib/matriz.c lib/alloc_safe.c lib/ondas_lib.c lib/imagem.c
 
-ondas: ondas.c leitura_entrada.c matriz.c alloc_safe.c gotas.c
+teste:
+	cd testes && $(MAKE) all
