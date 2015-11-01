@@ -35,18 +35,16 @@ main(int argc, char **argv){
   dt = (double)T / Niter;
   
   /* Faz as Niter iterações */
-  for(k = 0, t = 0; k < Niter; k++){
-    /* Verificando se nessa iteração será gerada uma nova gota */
-    if((double)rand() / RAND_MAX < P / 100)
-      nova_gota((double)(rand() % larg), (double)(rand() % alt), t);
-
+  /* Atualizando tempo para cada iteração */
+  for(k = 0, t = 0; k < Niter; k++, t += dt){
     /* Para cada ponto no lago calcula a altura da água */
     for(i = 0; i < H; i++)
       for(j = 0; j < L; j++)
 	h[i][j] = calcula_altura(cx(j), cy(i), t);
-
-    /* Atualizando tempo para a próxima iteração */
-    t += dt;
+    
+    /* Verificando se nessa iteração será gerada uma nova gota */
+    if((double)rand() / RAND_MAX < P / 100)
+      nova_gota((double)(rand() % larg), (double)(rand() % alt), t);
   }
 
   gera_imagem(h, H, L);
