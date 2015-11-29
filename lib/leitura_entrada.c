@@ -19,7 +19,7 @@ static void pega_tupla(FILE *file, int *a, int *b){
   *b = atoi(strtok('\0', "(,)"));
 }
 
-void leia_entrada(char *nome_arquivo, int *larg, int *alt, int *L, int *H, int *T, int *v, int *Niter, int *s, double *eps, double *P){
+void leia_entrada(char *nome_arquivo, int *larg, int *alt, int *L, int *H, int *T, int *v, int *Niter, unsigned int *s, double *eps, double *P){
   FILE *file;
   file = fopen(nome_arquivo, "r");
   if(!file){
@@ -33,6 +33,6 @@ void leia_entrada(char *nome_arquivo, int *larg, int *alt, int *L, int *H, int *
   *eps = pega_double(file);
   *Niter = pega_int(file);
   *P = pega_double(file);
-  *s = pega_int(file);
+  *s = (unsigned int)pega_int(file);
   fclose(file);
 }

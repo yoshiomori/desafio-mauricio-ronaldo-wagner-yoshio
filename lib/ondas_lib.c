@@ -1,12 +1,10 @@
 #include <stdio.h> /* printf */
 #include <stdlib.h> /* exit, EXIT_FAILURE */
 #include <math.h> /* sqrt, exp */
-#include <omp.h>
 
 /* Existe um número máximo de gotas que podem
  * ser geradas */
 #define NMAXGOTAS 1000
-#define NUM_THREADS 32
 /* Variáveis armazenam dados do arquivo */
 int larg, alt, L, H, v;
 double eps;
@@ -45,7 +43,6 @@ double
 calcula_altura(double px, double py, double t){
   int n;
   double h = 0, aux, d;
-  #pragma omp parallel for private (d,aux) reduction (+:h)
   for(n = 0; n < N; n++){
     d = dist(px, py, Gx[n], Gy[n]) - v * (t - Gt[n]);
     aux = d * exp(-d * d - (t - Gt[n]) / 10);
