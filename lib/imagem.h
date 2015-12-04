@@ -1,1 +1,1 @@
-void gera_imagem(double**, int, int);
+void gera_imagem(float**, int, int);
