@@ -18,7 +18,7 @@ extern float eps;
 int
 main(int argc, char **argv){ 
   /* h é uma referencia para os dados de altura dos pontos no lago */
-  float **h, t, dt, P, ***amostra_h, mcy;
+  float **h, t, dt, P, ***amostra_h, *x, *y;
 
   /* i, j índice das matrizes */
   int i, j, k, Niter, T;
@@ -37,6 +37,14 @@ main(int argc, char **argv){
   /* Montando matriz de alturas inicialmente com tudo 0 */
   h = calloc_matriz_float(H, L);
 
+  /* Calculando coordenadas */
+  x = malloc(L * sizeof *x);
+  for(i = 0; i < L; i++)
+    x[i] = cx(i);
+  y = malloc(H * sizeof *y);
+  for(i = 0; i < H; i++)
+    y[i] = cy(i);
+
   /* Variação do tempo por iteração */
   dt = (float)T / Niter;
 
@@ -48,13 +56,11 @@ main(int argc, char **argv){
   /* Faz as Niter iterações */
   /* Atualizando tempo para cada iteração */
   for(k = 0, t = 0; k < Niter; k++, t += dt){
-#pragma omp parallel for private(j, i, mcy) schedule(dynamic)
+#pragma omp parallel for private(j, i) schedule(dynamic)
     /* Para cada ponto no lago calcula a altura da água */
-    for(i = 0; i < H; i++){
-      mcy = cy(i);
+    for(i = 0; i < H; i++)
       for(j = 0; j < L; j++)
-	amostra_h[k][i][j] = h[i][j] = calcula_altura(cx(j), mcy, t);
-    }
+	amostra_h[k][i][j] = h[i][j] = calcula_altura(x[j], y[i], t);
     
     /* Verificando se nessa iteração será gerada uma nova gota */
     if((float)rand_r(&s) / RAND_MAX < P / 100)
