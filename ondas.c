@@ -48,7 +48,7 @@ main(int argc, char **argv){
   /* Faz as Niter iterações */
   /* Atualizando tempo para cada iteração */
   for(k = 0, t = 0; k < Niter; k++, t += dt){
-#pragma omp parallel for private(j, i, mcy)
+#pragma omp parallel for private(j, i, mcy) schedule(dynamic)
     /* Para cada ponto no lago calcula a altura da água */
     for(i = 0; i < H; i++){
       mcy = cy(i);
