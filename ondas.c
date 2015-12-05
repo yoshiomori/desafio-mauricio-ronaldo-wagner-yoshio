@@ -56,12 +56,11 @@ main(int argc, char **argv){
   /* Faz as Niter iterações */
   /* Atualizando tempo para cada iteração */
   for(k = 0, t = 0; k < Niter; k++, t += dt){
-#pragma omp parallel for private(j, i) schedule(dynamic)
+    #pragma omp parallel for private(j, i) schedule(dynamic)
     /* Para cada ponto no lago calcula a altura da água */
     for(i = 0; i < H; i++)
       for(j = 0; j < L; j++)
 	amostra_h[k][i][j] = h[i][j] = calcula_altura(x[j], y[i], t);
-    
     /* Verificando se nessa iteração será gerada uma nova gota */
     if((float)rand_r(&s) / RAND_MAX < P / 100)
       nova_gota((float)(rand() % larg), (float)(rand() % alt), t);
