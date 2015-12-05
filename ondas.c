@@ -9,7 +9,7 @@
 #include <omp.h>
 
 
-#define NUM_THREADS 32
+#define NUM_THREADS 4
 
 /* Variáveis armazenam dados do arquivo */
 extern int larg, alt, L, H, v;
@@ -18,7 +18,7 @@ extern float eps;
 int
 main(int argc, char **argv){ 
   /* h é uma referencia para os dados de altura dos pontos no lago */
-  float **h, t, dt, P, ***amostra_h;
+  float **h, t, dt, P, ***amostra_h, mcy;
 
   /* i, j índice das matrizes */
   int i, j, k, Niter, T;
@@ -47,13 +47,15 @@ main(int argc, char **argv){
   
   /* Faz as Niter iterações */
   /* Atualizando tempo para cada iteração */
-  t = 0;
-#pragma omp parallel for private(j, k, i) 
+  t = 0; 
   for(k = 0; k < Niter; k++){
+#pragma omp parallel for private(j, i, mcy)
     /* Para cada ponto no lago calcula a altura da água */
-    for(i = 0; i < H; i++)
+    for(i = 0; i < H; i++){
+      mcy = cy(i);
       for(j = 0; j < L; j++)
-	amostra_h[k][i][j] = h[i][j] = calcula_altura(cx(j), cy(i), t);
+	amostra_h[k][i][j] = h[i][j] = calcula_altura(cx(j), mcy, t);
+    }
     
     /* Verificando se nessa iteração será gerada uma nova gota */
     if((float)rand_r(&s) / RAND_MAX < P / 100)
