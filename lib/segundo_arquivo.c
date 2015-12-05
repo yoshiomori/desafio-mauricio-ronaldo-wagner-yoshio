@@ -1,14 +1,14 @@
 #include <stdio.h> /* fopen, perror */
 #include <stdlib.h> /* exit, EXIT_FAILURE */
 #include <math.h> /* sqrt */
-#include "matriz.h" /* calloc_matriz_double */
+#include "matriz.h" /* calloc_matriz_float */
 #include "ondas_lib.h" /* cx, cy */
 
-void gera_segundo_arquivo(int Niter, int nlin, int ncol, double ***amostra){
-  double **media, **desvio;
+void gera_segundo_arquivo(int Niter, int nlin, int ncol, float ***amostra){
+  float **media, **desvio;
   int i, j, k;
   FILE *pfile;
-  media = calloc_matriz_double(nlin, ncol);
+  media = calloc_matriz_float(nlin, ncol);
 
   /* Fazendo o calculo da média das alturas para cada ponto */
   for(k = 0; k < Niter; k++)
@@ -19,7 +19,7 @@ void gera_segundo_arquivo(int Niter, int nlin, int ncol, double ***amostra){
     for(j = 0; j < ncol; j++)
       media[i][j] /= Niter;
 
-  desvio = calloc_matriz_double(nlin, ncol);
+  desvio = calloc_matriz_float(nlin, ncol);
 
   /* Fazendo o calculo do desvio padrão das alturas para cada ponto */
   for(k = 0; k < Niter; k++)

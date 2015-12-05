@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include "../lib/ondas_lib.h"
 
-extern double v, eps;
+extern float v, eps;
 
 int main(){
-  double h;
+  float h;
   v = 10;
   eps = 0.001;
   nova_gota(0, 0, 0);

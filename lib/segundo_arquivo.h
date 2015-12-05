@@ -1,1 +1,1 @@
-void gera_segundo_arquivo(int, int, int, double***);
+void gera_segundo_arquivo(int, int, int, float***);

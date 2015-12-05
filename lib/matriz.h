@@ -1,1 +1,1 @@
-double **calloc_matriz_double(int, int);
+float **calloc_matriz_float(int, int);

@@ -3,7 +3,7 @@
 #include <string.h>
 static char linha[100];
 
-static double pega_double(FILE *file){
+static float pega_float(FILE *file){
   fscanf(file, "%s", linha);
   return atof(linha);
 }
@@ -19,7 +19,7 @@ static void pega_tupla(FILE *file, int *a, int *b){
   *b = atoi(strtok('\0', "(,)"));
 }
 
-void leia_entrada(char *nome_arquivo, int *larg, int *alt, int *L, int *H, int *T, int *v, int *Niter, int *s, double *eps, double *P){
+void leia_entrada(char *nome_arquivo, int *larg, int *alt, int *L, int *H, int *T, int *v, int *Niter, unsigned int *s, float *eps, float *P){
   FILE *file;
   file = fopen(nome_arquivo, "r");
   if(!file){
@@ -30,9 +30,9 @@ void leia_entrada(char *nome_arquivo, int *larg, int *alt, int *L, int *H, int *
   pega_tupla(file, L, H);
   *T = pega_int(file);
   *v = pega_int(file);
-  *eps = pega_double(file);
+  *eps = pega_float(file);
   *Niter = pega_int(file);
-  *P = pega_double(file);
-  *s = pega_int(file);
+  *P = pega_float(file);
+  *s = (unsigned int)pega_int(file);
   fclose(file);
 }

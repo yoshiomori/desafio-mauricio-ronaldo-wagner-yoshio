@@ -2,11 +2,11 @@
 #include <math.h>
 
 void
-gera_imagem(double **h, int n, int m){
+gera_imagem(float **h, int n, int m){
   FILE *pfile;
   int i, j;
-  double hmax, pmax;
-  double delta;
+  float hmax, pmax;
+  float delta;
 
   pfile = fopen("imagem.ppm", "w");
 
