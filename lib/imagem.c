@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+#include <omp.h>
 
 void
 gera_imagem(float **h, int n, int m){
@@ -11,9 +12,11 @@ gera_imagem(float **h, int n, int m){
   pfile = fopen("imagem.ppm", "w");
 
   /* Calculando a altura máxima e mínima */
-  hmax = pmax = h[0][0]; /* Tratamento especial para o primeiro elemento */
+  hmax = - INFINITY;
+  pmax = INFINITY;
+  #pragma omp parallel for private(j, i) schedule(auto)
   for(i = 0; i < n; i++)
-    for(j = 1; j < m; j++){
+    for(j = 0; j < m; j++){
       hmax = h[i][j] > hmax ? h[i][j] : hmax;
       pmax = h[i][j] < pmax ? h[i][j] : pmax;
     }
